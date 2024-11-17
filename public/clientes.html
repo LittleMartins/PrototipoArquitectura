@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Clientes</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/clientes.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="mecanicos.html">Mecánicos</a>
+        <a href="repuestos.html">Repuestos</a>
+        <a href="citas.html">Citas</a>
+        <a href="vehiculos.html">Vehículos</a>
+        <a href="clientes.html">Clientes</a>
+        <a href="servicios.html">Servicios</a>
+    </nav>
+    <div class="container">
+        <h1>Gestión de Clientes</h1>
+        <form id="clienteForm" class="form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" placeholder="Nombre del cliente" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="apellido">Apellido</label>
+                    <input type="text" id="apellido" placeholder="Apellido del cliente" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="email">Correo Electrónico</label>
+                    <input type="email" id="email" placeholder="ejemplo@correo.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input type="tel" id="telefono" placeholder="123-456-7890" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="direccion">Dirección</label>
+                <textarea id="direccion" rows="3" placeholder="Dirección completa" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="tipo_cliente">Tipo de Cliente</label>
+                <select id="tipo_cliente" required>
+                    <option value="regular">Regular</option>
+                    <option value="frecuente">Frecuente</option>
+                    <option value="premium">Premium</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Registrar Cliente</button>
+        </form>
+        <div class="clientes-grid" id="listaClientes"></div>
+    </div>
+    <template id="cliente-card-template">
+        <div class="card cliente-card">
+            <div class="card-header">
+                <h3 class="nombre-completo"></h3>
+                <span class="badge tipo-cliente"></span>
+            </div>
+            <div class="card-body">
+                <p class="email"></p>
+                <p class="telefono"></p>
+                <p class="direccion"></p>
+                <div class="vehiculos-cliente">
+                    <h4>Vehículos</h4>
+                    <ul class="vehiculos-list"></ul>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-secondary btn-edit">Editar</button>
+                <button class="btn btn-danger btn-delete">Eliminar</button>
+            </div>
+        </div>
+    </template>
+    <script type="module" src="js/firebase/config.js"></script>
+    <script type="module" src="js/clientes.js"></script>
+</body>
+</html> 

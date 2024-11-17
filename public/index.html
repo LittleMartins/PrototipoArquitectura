@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema de gestión para taller mecánico">
+    <title>Taller Mecánico - Dashboard</title>
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navegación Principal -->
+    <nav class="main-nav">
+        <div class="nav-brand">
+            <i class="fas fa-wrench" aria-hidden="true"></i>
+            <span>Taller Mecánico</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" aria-current="page">
+                <i class="fas fa-home" aria-hidden="true"></i> 
+                <span>Inicio</span>
+            </a>
+            <a href="citas.html">
+                <i class="fas fa-calendar" aria-hidden="true"></i> 
+                <span>Citas</span>
+            </a>
+            <a href="servicios.html">
+                <i class="fas fa-tools" aria-hidden="true"></i> 
+                <span>Servicios</span>
+            </a>
+            <a href="repuestos.html">
+                <i class="fas fa-cogs" aria-hidden="true"></i> 
+                <span>Repuestos</span>
+            </a>
+            <a href="mecanicos.html">
+                <i class="fas fa-users" aria-hidden="true"></i> 
+                <span>Mecánicos</span>
+            </a>
+            <a href="clientes.html">
+                <i class="fas fa-user-friends" aria-hidden="true"></i> 
+                <span>Clientes</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="dashboard">
+        <!-- Contenido específico de cada página -->
+    </main>
+
+    <!-- Scripts -->
+    <script type="module" src="js/config/firebase.js"></script>
+    <script type="module" src="js/controllers/DashboardController.js"></script>
+</body>
+</html> 

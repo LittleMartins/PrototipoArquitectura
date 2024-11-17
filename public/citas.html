@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Citas - Taller Mecánico</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/citas.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <a href="index.html">Inicio</a>
+        <a href="mecanicos.html">Mecánicos</a>
+        <a href="repuestos.html">Repuestos</a>
+        <a href="citas.html">Citas</a>
+        <a href="vehiculos.html">Vehículos</a>
+        <a href="clientes.html">Clientes</a>
+        <a href="servicios.html">Servicios</a>
+    </nav>
+
+    <main class="citas-container">
+        <div class="citas-header">
+            <h1>Gestión de Citas</h1>
+            <button class="btn btn-primary" id="btnNuevaCita">
+                <i class="fas fa-plus"></i> Nueva Cita
+            </button>
+        </div>
+
+        <div class="citas-filters">
+            <div class="filter-group">
+                <label for="filtroFecha">Fecha:</label>
+                <input type="date" id="filtroFecha" class="form-control">
+            </div>
+            <div class="filter-group">
+                <label for="filtroMecanico">Mecánico:</label>
+                <select id="filtroMecanico" class="form-control">
+                    <option value="">Todos</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filtroEstado">Estado:</label>
+                <select id="filtroEstado" class="form-control">
+                    <option value="">Todos</option>
+                    <option value="pendiente">Pendiente</option>
+                    <option value="en_proceso">En Proceso</option>
+                    <option value="completada">Completada</option>
+                    <option value="cancelada">Cancelada</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="citas-grid" id="listaCitas">
+            <!-- Se llenará dinámicamente -->
+        </div>
+    </main>
+
+    <!-- Template para el modal de nueva cita -->
+    <template id="modalNuevaCita">
+        <form id="citaForm" class="form-grid">
+            <div class="form-group">
+                <label for="fecha">Fecha y Hora:</label>
+                <input type="datetime-local" id="fecha" name="fecha" required class="form-control">
+            </div>
+            
+            <div class="form-group">
+                <label for="vehiculo">Vehículo:</label>
+                <select id="vehiculo" name="vehiculo" required class="form-control">
+                    <option value="">Seleccione un vehículo</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="mecanico">Mecánico:</label>
+                <select id="mecanico" name="mecanico" required class="form-control">
+                    <option value="">Seleccione un mecánico</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="tipo_servicio">Tipo de Servicio:</label>
+                <select id="tipo_servicio" name="tipo_servicio" required class="form-control">
+                    <option value="">Seleccione el tipo de servicio</option>
+                    <option value="mantenimiento">Mantenimiento</option>
+                    <option value="reparacion">Reparación</option>
+                    <option value="diagnostico">Diagnóstico</option>
+                    <option value="revision">Revisión</option>
+                </select>
+            </div>
+
+            <div class="form-group full-width">
+                <label for="notas">Notas:</label>
+                <textarea id="notas" name="notas" class="form-control" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Guardar Cita</button>
+            </div>
+        </form>
+    </template>
+
+    <script type="module" src="js/firebase/config.js"></script>
+    <script type="module" src="js/citas.js"></script>
+</body>
+</html> 

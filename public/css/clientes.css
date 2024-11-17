@@ -1,0 +1,123 @@
+.clientes-container {
+    padding: var(--spacing-lg);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.clientes__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.clientes__search {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.cliente-card {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.cliente-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.cliente-card__info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.info-item__label {
+    font-size: 0.875rem;
+    color: var(--secondary-color);
+}
+
+.info-item__value {
+    font-weight: 500;
+}
+
+.cliente-card__vehicles {
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--border-color);
+}
+
+.vehicle-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.vehicle-item {
+    background-color: var(--bg-color);
+    padding: var(--spacing-sm);
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cliente-card__actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+}
+
+.history-section {
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--border-color);
+}
+
+.history-item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: var(--spacing-md);
+    padding: var(--spacing-sm);
+    border-bottom: 1px solid var(--border-color);
+}
+
+@media (max-width: 768px) {
+    .clientes-container {
+        padding: var(--spacing-md);
+    }
+
+    .clientes__header {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+
+    .clientes__search {
+        flex-direction: column;
+    }
+
+    .cliente-card__actions {
+        flex-direction: column;
+    }
+
+    .cliente-card__actions .btn {
+        width: 100%;
+    }
+
+    .history-item {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+    }
+} 

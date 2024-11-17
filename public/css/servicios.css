@@ -1,0 +1,190 @@
+/* Estilos específicos para la sección de servicios */
+
+.servicios-container {
+    padding: var(--spacing-lg);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.servicios__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.servicios__filters {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.servicio-card {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.servicio-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.servicio-card__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.servicio-card__status {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: 12px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.status--pending {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: var(--warning-color);
+}
+
+.status--in-progress {
+    background-color: rgba(33, 150, 243, 0.1);
+    color: var(--primary-color);
+}
+
+.status--completed {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: var(--success-color);
+}
+
+.servicio-card__details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.detail-item__label {
+    font-size: 0.875rem;
+    color: var(--secondary-color);
+}
+
+.detail-item__value {
+    font-weight: 500;
+}
+
+/* Repuestos en servicio */
+.repuestos-container {
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 1rem;
+}
+
+.repuestos-seleccion {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.repuestos-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.repuesto-item {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+
+/* Costos */
+.costo-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.precio {
+    color: var(--primary-color);
+}
+
+/* Modal de detalles */
+.detalles-servicio {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.detalles-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.detalles-info {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.detalles-repuestos {
+    border-top: 1px solid var(--border-color);
+    padding-top: 1rem;
+}
+
+.detalles-costos {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+
+.costo-item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.costo-item.total {
+    border-top: 1px solid var(--border-color);
+    padding-top: 0.5rem;
+    margin-top: 0.5rem;
+    font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .repuestos-seleccion {
+        grid-template-columns: 1fr;
+    }
+
+    .repuesto-item {
+        grid-template-columns: 1fr auto;
+        gap: 0.5rem;
+    }
+
+    .repuesto-item > *:not(:first-child):not(:last-child) {
+        display: none;
+    }
+} 

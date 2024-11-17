@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Repuestos - Taller Mecánico</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/repuestos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <a href="index.html">Inicio</a>
+        <a href="mecanicos.html">Mecánicos</a>
+        <a href="repuestos.html">Repuestos</a>
+        <a href="citas.html">Citas</a>
+        <a href="vehiculos.html">Vehículos</a>
+        <a href="clientes.html">Clientes</a>
+        <a href="servicios.html">Servicios</a>
+    </nav>
+
+    <main class="repuestos-container">
+        <div class="repuestos-header">
+            <h1>Gestión de Repuestos</h1>
+            <div class="header-actions">
+                <button class="btn btn-secondary" id="btnImportar">
+                    <i class="fas fa-file-import"></i> Importar
+                </button>
+                <button class="btn btn-primary" id="btnNuevoRepuesto">
+                    <i class="fas fa-plus"></i> Nuevo Repuesto
+                </button>
+            </div>
+        </div>
+
+        <div class="repuestos-filters">
+            <div class="filter-group">
+                <label for="filtroCategoria">Categoría:</label>
+                <select id="filtroCategoria" class="form-control">
+                    <option value="">Todas</option>
+                    <option value="motor">Motor</option>
+                    <option value="frenos">Frenos</option>
+                    <option value="suspension">Suspensión</option>
+                    <option value="electrico">Sistema Eléctrico</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filtroStock">Stock:</label>
+                <select id="filtroStock" class="form-control">
+                    <option value="">Todos</option>
+                    <option value="bajo">Bajo Stock</option>
+                    <option value="disponible">Disponible</option>
+                    <option value="agotado">Agotado</option>
+                </select>
+            </div>
+            <div class="filter-group search-group">
+                <input type="text" id="busqueda" class="form-control" 
+                       placeholder="Buscar por código o descripción...">
+                <button class="btn btn-secondary" id="btnBuscar">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="repuestos-grid" id="listaRepuestos">
+            <!-- Se llenará dinámicamente -->
+        </div>
+    </main>
+
+    <!-- Template para el modal de nuevo/editar repuesto -->
+    <template id="modalRepuesto">
+        <form id="repuestoForm" class="form-grid">
+            <div class="form-group">
+                <label for="codigo">Código:</label>
+                <input type="text" id="codigo" name="codigo" required class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="descripcion">Descripción:</label>
+                <input type="text" id="descripcion" name="descripcion" required class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="categoria">Categoría:</label>
+                <select id="categoria" name="categoria" required class="form-control">
+                    <option value="">Seleccione una categoría</option>
+                    <option value="motor">Motor</option>
+                    <option value="frenos">Frenos</option>
+                    <option value="suspension">Suspensión</option>
+                    <option value="electrico">Sistema Eléctrico</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="precio">Precio:</label>
+                <input type="number" id="precio" name="precio" required 
+                       class="form-control" min="0" step="0.01">
+            </div>
+
+            <div class="form-group">
+                <label for="stock">Stock:</label>
+                <input type="number" id="stock" name="stock" required 
+                       class="form-control" min="0">
+            </div>
+
+            <div class="form-group">
+                <label for="stock_minimo">Stock Mínimo:</label>
+                <input type="number" id="stock_minimo" name="stock_minimo" 
+                       required class="form-control" min="0">
+            </div>
+
+            <div class="form-group">
+                <label for="proveedor">Proveedor:</label>
+                <input type="text" id="proveedor" name="proveedor" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="ubicacion">Ubicación:</label>
+                <input type="text" id="ubicacion" name="ubicacion" class="form-control">
+            </div>
+
+            <div class="form-group full-width">
+                <label for="notas">Notas:</label>
+                <textarea id="notas" name="notas" class="form-control" rows="3"></textarea>
+            </div>
+        </form>
+    </template>
+
+    <!-- Template para el modal de ajuste de stock -->
+    <template id="modalAjusteStock">
+        <form id="ajusteStockForm" class="form-vertical">
+            <div class="form-group">
+                <label for="cantidad">Cantidad:</label>
+                <input type="number" id="cantidad" name="cantidad" 
+                       required class="form-control" min="1">
+            </div>
+
+            <div class="form-group">
+                <label for="tipo_ajuste">Tipo de Ajuste:</label>
+                <select id="tipo_ajuste" name="tipo_ajuste" required class="form-control">
+                    <option value="entrada">Entrada</option>
+                    <option value="salida">Salida</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="motivo">Motivo:</label>
+                <textarea id="motivo" name="motivo" required 
+                          class="form-control" rows="2"></textarea>
+            </div>
+        </form>
+    </template>
+
+    <script type="module">
+        import { RepuestosController } from './js/controllers/RepuestosController.js';
+        import { NotificationSystem } from './js/components/NotificationSystem.js';
+        import { ModalSystem } from './js/components/ModalSystem.js';
+
+        // Inicializar sistemas globales
+        window.notificationSystem = window.notificationSystem || new NotificationSystem();
+        window.modalSystem = window.modalSystem || new ModalSystem();
+
+        // Inicializar controlador
+        const repuestosController = new RepuestosController();
+
+        // Eventos
+        document.getElementById('btnNuevoRepuesto').addEventListener('click', () => {
+            const template = document.getElementById('modalRepuesto');
+            modalSystem.show('nuevo-repuesto', {
+                title: 'Nuevo Repuesto',
+                content: template.innerHTML,
+                footer: `
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button type="submit" form="repuestoForm" class="btn btn-primary">
+                        Guardar Repuesto
+                    </button>
+                `
+            });
+        });
+
+        document.getElementById('btnImportar').addEventListener('click', () => {
+            repuestosController.importarRepuestos();
+        });
+    </script>
+</body>
+</html> 

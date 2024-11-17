@@ -1,0 +1,205 @@
+:root {
+    /* Colores principales */
+    --primary-color: #2196F3;
+    --secondary-color: #607D8B;
+    --success-color: #4CAF50;
+    --warning-color: #FFC107;
+    --danger-color: #F44336;
+    
+    /* Colores de fondo y texto */
+    --text-color: #333333;
+    --bg-color: #f5f5f5;
+    --card-bg: #ffffff;
+    --border-color: #e0e0e0;
+    
+    /* Efectos */
+    --shadow: 0 2px 4px rgba(0,0,0,0.1);
+    --transition: all 0.3s ease;
+    
+    /* Espaciado */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    
+    /* Variables existentes */
+    --border-radius: 4px;
+    --font-family: 'Inter', sans-serif;
+    
+    /* Nuevas variables para inputs */
+    --input-bg: #ffffff;
+    --input-border: var(--border-color);
+    --input-focus-border: var(--primary-color);
+    --input-focus-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+    --input-disabled-bg: #f5f5f5;
+    --input-disabled-color: #757575;
+}
+
+/* Reset y estilos base */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+}
+
+/* Navegación */
+.main-nav {
+    background-color: var(--card-bg);
+    padding: var(--spacing-md);
+    box-shadow: var(--shadow);
+}
+
+.main-nav__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.nav-links {
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-color);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: 4px;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.nav-links a:hover,
+.nav-links a[aria-current="page"] {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Componentes comunes */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-success {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.btn-warning {
+    background-color: var(--warning-color);
+    color: black;
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+/* Utilidades */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-md);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+    
+    .nav-links.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: var(--card-bg);
+        padding: var(--spacing-md);
+        box-shadow: var(--shadow);
+    }
+} 
+
+/* Estilos base para inputs */
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--text-color);
+    background-color: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: var(--border-radius);
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--input-focus-border);
+    box-shadow: var(--input-focus-shadow);
+}
+
+.form-control:disabled {
+    background-color: var(--input-disabled-bg);
+    color: var(--input-disabled-color);
+    cursor: not-allowed;
+}
+
+/* Estilos para grupos de formularios */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+/* Estilos para inputs con validación */
+.form-control.is-invalid {
+    border-color: var(--danger-color);
+}
+
+.invalid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: var(--danger-color);
+} 

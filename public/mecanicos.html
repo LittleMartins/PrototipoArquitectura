@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Mecánicos - Taller Mecánico</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/mecanicos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <a href="index.html">Inicio</a>
+        <a href="mecanicos.html">Mecánicos</a>
+        <a href="repuestos.html">Repuestos</a>
+        <a href="citas.html">Citas</a>
+        <a href="vehiculos.html">Vehículos</a>
+        <a href="clientes.html">Clientes</a>
+    </nav>
+
+    <main class="mecanicos-container">
+        <div class="mecanicos-header">
+            <h1>Gestión de Mecánicos</h1>
+            <button class="btn btn-primary" id="btnNuevoMecanico">
+                <i class="fas fa-plus"></i> Nuevo Mecánico
+            </button>
+        </div>
+
+        <div class="mecanicos-filters">
+            <div class="filter-group">
+                <label for="filtroEspecialidad">Especialidad:</label>
+                <select id="filtroEspecialidad" class="form-control">
+                    <option value="">Todas</option>
+                    <option value="general">Mecánica General</option>
+                    <option value="electrica">Mecánica Eléctrica</option>
+                    <option value="diesel">Mecánica Diesel</option>
+                    <option value="hidraulica">Sistemas Hidráulicos</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filtroDisponibilidad">Disponibilidad:</label>
+                <select id="filtroDisponibilidad" class="form-control">
+                    <option value="">Todos</option>
+                    <option value="true">Disponible</option>
+                    <option value="false">No Disponible</option>
+                </select>
+            </div>
+            <div class="filter-group search-group">
+                <input type="text" id="busqueda" class="form-control" 
+                       placeholder="Buscar por nombre...">
+                <button class="btn btn-secondary" id="btnBuscar">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="mecanicos-grid" id="listaMecanicos">
+            <!-- Se llenará dinámicamente -->
+        </div>
+    </main>
+
+    <!-- Template para el modal de nuevo/editar mecánico -->
+    <template id="modalMecanico">
+        <form id="mecanicoForm" class="form-grid">
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="apellido">Apellido:</label>
+                <input type="text" id="apellido" name="apellido" required class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="especialidad">Especialidad:</label>
+                <select id="especialidad" name="especialidad" required class="form-control">
+                    <option value="">Seleccione una especialidad</option>
+                    <option value="general">Mecánica General</option>
+                    <option value="electrica">Mecánica Eléctrica</option>
+                    <option value="diesel">Mecánica Diesel</option>
+                    <option value="hidraulica">Sistemas Hidráulicos</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="telefono">Teléfono:</label>
+                <input type="tel" id="telefono" name="telefono" required class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="disponibilidad">Disponibilidad:</label>
+                <select id="disponibilidad" name="disponibilidad" required class="form-control">
+                    <option value="true">Disponible</option>
+                    <option value="false">No Disponible</option>
+                </select>
+            </div>
+
+            <div class="form-group full-width">
+                <label for="notas">Notas:</label>
+                <textarea id="notas" name="notas" class="form-control" rows="3"></textarea>
+            </div>
+        </form>
+    </template>
+
+    <!-- Template para el modal de estadísticas del mecánico -->
+    <template id="modalEstadisticas">
+        <div class="estadisticas-mecanico">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Servicios Completados</h3>
+                        <span class="servicios-completados">0</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Calificación Promedio</h3>
+                        <span class="calificacion-promedio">0.0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="servicios-recientes">
+                <h3>Servicios Recientes</h3>
+                <div class="servicios-lista">
+                    <!-- Se llenará dinámicamente -->
+                </div>
+            </div>
+
+            <div class="grafica-rendimiento">
+                <h3>Rendimiento Mensual</h3>
+                <canvas id="graficaRendimiento"></canvas>
+            </div>
+        </div>
+    </template>
+
+    <script type="module">
+        import { MecanicosController } from './js/controllers/MecanicosController.js';
+        import { NotificationSystem } from './js/components/NotificationSystem.js';
+        import { ModalSystem } from './js/components/ModalSystem.js';
+
+        // Inicializar sistemas globales
+        window.notificationSystem = window.notificationSystem || new NotificationSystem();
+        window.modalSystem = window.modalSystem || new ModalSystem();
+
+        // Inicializar controlador
+        const mecanicosController = new MecanicosController();
+
+        // Eventos
+        document.getElementById('btnNuevoMecanico').addEventListener('click', () => {
+            const template = document.getElementById('modalMecanico');
+            modalSystem.show('nuevo-mecanico', {
+                title: 'Nuevo Mecánico',
+                content: template.innerHTML,
+                footer: `
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button type="submit" form="mecanicoForm" class="btn btn-primary">
+                        Guardar Mecánico
+                    </button>
+                `
+            });
+        });
+    </script>
+</body>
+</html> 

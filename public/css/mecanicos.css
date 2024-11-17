@@ -1,0 +1,130 @@
+/* Estilos específicos para la sección de mecánicos */
+
+.mecanicos-container {
+    padding: var(--spacing-lg);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.mecanicos__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.mecanicos__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.mecanico-card {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    padding: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.mecanico-card__header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.mecanico-card__avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.mecanico-card__info {
+    flex: 1;
+}
+
+.mecanico-card__name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+}
+
+.mecanico-card__specialty {
+    color: var(--secondary-color);
+    font-size: 0.875rem;
+}
+
+.mecanico-card__stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-sm);
+}
+
+.stat-item {
+    text-align: center;
+    padding: var(--spacing-sm);
+    background-color: var(--bg-color);
+    border-radius: 4px;
+}
+
+.stat-item__value {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.stat-item__label {
+    font-size: 0.75rem;
+    color: var(--secondary-color);
+}
+
+.rating {
+    display: flex;
+    gap: var(--spacing-xs);
+    color: var(--warning-color);
+}
+
+.mecanico-card__actions {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.status-badge {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.status-badge--available {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: var(--success-color);
+}
+
+.status-badge--unavailable {
+    background-color: rgba(244, 67, 54, 0.1);
+    color: var(--danger-color);
+}
+
+@media (max-width: 768px) {
+    .mecanicos-container {
+        padding: var(--spacing-md);
+    }
+
+    .mecanicos__header {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+
+    .mecanico-card__actions {
+        flex-direction: column;
+    }
+
+    .mecanico-card__actions .btn {
+        width: 100%;
+    }
+}
+  

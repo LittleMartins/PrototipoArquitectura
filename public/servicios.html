@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Servicios - Taller Mecánico</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/servicios.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <a href="index.html">Inicio</a>
+        <a href="mecanicos.html">Mecánicos</a>
+        <a href="repuestos.html">Repuestos</a>
+        <a href="citas.html">Citas</a>
+        <a href="vehiculos.html">Vehículos</a>
+        <a href="clientes.html">Clientes</a>
+        <a href="servicios.html">Servicios</a>
+    </nav>
+
+    <main class="servicios-container">
+        <div class="servicios-header">
+            <h1>Gestión de Servicios</h1>
+            <button class="btn btn-primary" id="btnNuevoServicio">
+                <i class="fas fa-plus"></i> Nuevo Servicio
+            </button>
+        </div>
+
+        <div class="servicios-filters">
+            <div class="filter-group">
+                <label for="filtroEstado">Estado:</label>
+                <select id="filtroEstado" class="form-control">
+                    <option value="">Todos</option>
+                    <option value="pendiente">Pendiente</option>
+                    <option value="en_proceso">En Proceso</option>
+                    <option value="completado">Completado</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filtroMecanico">Mecánico:</label>
+                <select id="filtroMecanico" class="form-control">
+                    <option value="">Todos</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="filtroTipo">Tipo de Servicio:</label>
+                <select id="filtroTipo" class="form-control">
+                    <option value="">Todos</option>
+                    <option value="mantenimiento">Mantenimiento</option>
+                    <option value="reparacion">Reparación</option>
+                    <option value="diagnostico">Diagnóstico</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="servicios-grid" id="listaServicios">
+            <!-- Se llenará dinámicamente -->
+        </div>
+    </main>
+
+    <!-- Template para el modal de nuevo servicio -->
+    <template id="modalNuevoServicio">
+        <form id="servicioForm" class="form-grid">
+            <div class="form-group">
+                <label for="vehiculo">Vehículo:</label>
+                <select id="vehiculo" name="vehiculo" required class="form-control">
+                    <option value="">Seleccione un vehículo</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="mecanico">Mecánico:</label>
+                <select id="mecanico" name="mecanico" required class="form-control">
+                    <option value="">Seleccione un mecánico</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="tipo_servicio">Tipo de Servicio:</label>
+                <select id="tipo_servicio" name="tipo_servicio" required class="form-control">
+                    <option value="">Seleccione el tipo</option>
+                    <option value="mantenimiento">Mantenimiento</option>
+                    <option value="reparacion">Reparación</option>
+                    <option value="diagnostico">Diagnóstico</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="valor_servicio">Valor Base:</label>
+                <input type="number" id="valor_servicio" name="valor_servicio" 
+                       required class="form-control" min="0" step="0.01">
+            </div>
+
+            <div class="form-group full-width">
+                <label for="descripcion">Descripción:</label>
+                <textarea id="descripcion" name="descripcion" required 
+                          class="form-control" rows="3"></textarea>
+            </div>
+
+            <div class="form-group full-width">
+                <h3>Repuestos Necesarios</h3>
+                <div class="repuestos-container">
+                    <div class="repuestos-seleccion">
+                        <select id="repuesto_select" class="form-control">
+                            <option value="">Seleccione un repuesto</option>
+                        </select>
+                        <input type="number" id="repuesto_cantidad" 
+                               class="form-control" min="1" value="1">
+                        <button type="button" id="btnAgregarRepuesto" 
+                                class="btn btn-secondary">
+                            <i class="fas fa-plus"></i> Agregar
+                        </button>
+                    </div>
+                    <div id="listaRepuestosSeleccionados" class="repuestos-lista">
+                        <!-- Se llenará dinámicamente -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group full-width">
+                <div class="costo-total">
+                    <span>Costo Total:</span>
+                    <span id="costoTotal" class="precio">$0.00</span>
+                </div>
+            </div>
+        </form>
+    </template>
+
+    <!-- Template para el modal de detalles del servicio -->
+    <template id="modalDetallesServicio">
+        <div class="detalles-servicio">
+            <div class="detalles-header">
+                <h3 class="tipo-servicio"></h3>
+                <span class="badge"></span>
+            </div>
+            
+            <div class="detalles-info">
+                <p><strong>Vehículo:</strong> <span class="vehiculo"></span></p>
+                <p><strong>Cliente:</strong> <span class="cliente"></span></p>
+                <p><strong>Mecánico:</strong> <span class="mecanico"></span></p>
+                <p><strong>Fecha Inicio:</strong> <span class="fecha-inicio"></span></p>
+                <p><strong>Descripción:</strong> <span class="descripcion"></span></p>
+            </div>
+
+            <div class="detalles-repuestos">
+                <h4>Repuestos Utilizados</h4>
+                <div class="repuestos-lista">
+                    <!-- Se llenará dinámicamente -->
+                </div>
+            </div>
+
+            <div class="detalles-costos">
+                <div class="costo-item">
+                    <span>Valor Base:</span>
+                    <span class="valor-base"></span>
+                </div>
+                <div class="costo-item">
+                    <span>Costo Repuestos:</span>
+                    <span class="costo-repuestos"></span>
+                </div>
+                <div class="costo-item total">
+                    <span>Total:</span>
+                    <span class="costo-total"></span>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script type="module">
+        import { ServiciosController } from './js/controllers/ServiciosController.js';
+        import { NotificationSystem } from './js/components/NotificationSystem.js';
+        import { ModalSystem } from './js/components/ModalSystem.js';
+
+        // Inicializar sistemas globales si no existen
+        window.notificationSystem = window.notificationSystem || new NotificationSystem();
+        window.modalSystem = window.modalSystem || new ModalSystem();
+
+        // Inicializar controlador
+        const serviciosController = new ServiciosController();
+
+        // Evento para nuevo servicio
+        document.getElementById('btnNuevoServicio').addEventListener('click', () => {
+            const template = document.getElementById('modalNuevoServicio');
+            modalSystem.show('nuevo-servicio', {
+                title: 'Nuevo Servicio',
+                content: template.innerHTML,
+                footer: `
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button type="submit" form="servicioForm" class="btn btn-primary">
+                        Crear Servicio
+                    </button>
+                `
+            });
+        });
+    </script>
+</body>
+</html> 
